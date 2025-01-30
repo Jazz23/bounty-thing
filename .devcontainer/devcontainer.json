@@ -23,7 +23,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": {
-		"npm": "cd bounty-thing && npm install"
+		"npm": "npm --prefix bounty-thing install"
 	}
 
 	// Configure tool-specific properties.
