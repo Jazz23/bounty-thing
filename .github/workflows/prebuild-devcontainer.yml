@@ -32,5 +32,4 @@ jobs:
         with:
           subFolder: .github
           imageName: ghcr.io/${{ env.REPO }}
-          cacheFrom: ghcr.io/${{ env.REPO }}
           push: always
