@@ -10,13 +10,6 @@
 		"ghcr.io/devcontainers/features/dotnet:2": {},
 		"ghcr.io/devcontainers-extra/features/aws-cdk:2": {}
 	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"svelte.svelte-vscode"
-			]
-		}
-	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [5173],
