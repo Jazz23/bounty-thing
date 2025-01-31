@@ -4,23 +4,13 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"svelte.svelte-vscode"
+				"svelte.svelte-vscode",
+				"github.vscode-github-actions"
 			]
 		}
 	},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [5173],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	//"updateContentCommand": {
-		//"npm": "npm --prefix bounty-thing install"//,
-		// "playwright": "npm install -g playwright && sudo npx playwright install-deps && sudo npx playwright install"
-	//}
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"postCreateCommand": {
+		"install website": "npm --prefix bounty-thing install",
+		"install playwright": "cd bounty-thing && npx playwright install"
+	}
 }
