@@ -2,6 +2,8 @@ name: End to End Testing
 
 on:
     workflow_dispatch:
+    push:
+      branches: [feature/reusable-workflow]
 
 jobs:
   test:
