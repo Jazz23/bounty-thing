@@ -7,4 +7,6 @@ RUN npm install -g playwright
 RUN npx playwright install-deps
 
 # Configure act to use their medium image
+RUN mkdir -p /home/node/.config/act
 RUN echo "-P ubuntu-latest=catthehacker/ubuntu:act-latest" > /home/node/.config/act/actrc
+RUN chmod -R 777 /home/node/.config/act

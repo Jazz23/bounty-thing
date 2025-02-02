@@ -1,6 +1,9 @@
 {
 	"name": "Bounty Thing Dev Container",
 	"image": "ghcr.io/jazz23/bounty-thing:latest",
+	// "build":{
+	// 	"dockerfile": "Dockerfile"
+	// },
 	"customizations": {
 		"vscode": {
 			"extensions": [
