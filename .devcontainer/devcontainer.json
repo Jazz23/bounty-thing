@@ -14,7 +14,6 @@
 		}
 	},
 	"postCreateCommand": {
-		"install website": "npm --prefix bounty-thing install",
-		"install playwright": "cd bounty-thing && npx playwright install"
+		"install website": "npm --prefix bounty-thing install"
 	}
 }
