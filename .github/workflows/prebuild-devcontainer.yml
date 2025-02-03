@@ -9,14 +9,10 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
     permissions:
       contents: read
       packages: write
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -32,13 +28,11 @@ jobs:
       - name: downcase REPO
         run: |
           echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-          
+
       # Docker image used for local development (Dev Container) and CI testing
       - name: Pre-build dev container image
         uses: devcontainers/ci@v0.3
         with:
           subFolder: .github
           imageName: ghcr.io/${{ env.REPO }}
-          cacheFrom: ghcr.io/${{ env.REPO }}
-          imageTag: ${{ matrix.os }}
           push: always
