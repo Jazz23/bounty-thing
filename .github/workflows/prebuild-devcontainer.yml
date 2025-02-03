@@ -9,10 +9,13 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
     permissions:
       contents: read
       packages: write
-    runs-on: ubuntu-24.04-arm
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,4 +38,5 @@ jobs:
         with:
           subFolder: .github
           imageName: ghcr.io/${{ env.REPO }}
+          imageTag: ${{ matrix.os }}
           push: always
