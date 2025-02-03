@@ -4,14 +4,19 @@
 name: Prebuild Dev Container
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [fix/multi-platform-build]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
     permissions:
       contents: read
       packages: write
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,4 +40,5 @@ jobs:
           subFolder: .github
           imageName: ghcr.io/${{ env.REPO }}
           cacheFrom: ghcr.io/${{ env.REPO }}
+          imageTag: ${{ matrix.os }}
           push: always
