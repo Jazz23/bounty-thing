@@ -1,9 +1,8 @@
-name: End to End Testing
+name: Npm Tests
 
 on:
-    workflow_dispatch:
-    push:
-      branches: [feature/reusable-workflow]
+  pull_request:
+    branches: [staging]
 
 jobs:
   test:

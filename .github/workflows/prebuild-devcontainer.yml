@@ -4,8 +4,7 @@
 name: Prebuild Dev Container
 
 on:
-  push:
-    branches: [fix/multi-platform-build]
+  workflow_dispatch:
 
 permissions:
   contents: read
