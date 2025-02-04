@@ -7,9 +7,6 @@ on:
   push:
     branches: [fix/multi-platform-build]
 
-env:
-  DOCKER_IMAGE_NAME:
-
 permissions:
   contents: read
   packages: write
@@ -21,12 +18,15 @@ jobs:
         # Use a matrix strategy to run two jobs, one for amd64 and one for arm64.
         os: [ubuntu-latest, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
+    outputs:
+      docker-image-name: ${{ steps.get-docker-image-name.outputs.docker-image-name }}
 
     steps:
-      # Docker images require lowercase names, but GitHub repository may contain uppercase characters
-      - name: downcase REPO
+      # Downcase repo name to get docker image name
+      - name: Generate Docker Image Name
+        id: get-docker-image-name
         run: |
-          echo "DOCKER_IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+          echo "docker-image-name=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_OUTPUT}
 
       - uses: actions/checkout@v4
 
@@ -42,13 +42,13 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           subFolder: .github
-          imageName: ${{ env.DOCKER_IMAGE_NAME }}
+          imageName: ${{ steps.get-docker-image-name.outputs.docker-image-name }}
           imageTag: ${{ matrix.os }}
           push: always
 
   # Combine the two images into one manifest and push with the :latest tag.
   combine:
-    needs: [build]
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
@@ -61,8 +61,8 @@ jobs:
 
       - name: Build and push manifest
         run: |
-          docker manifest create ${{ env.DOCKER_IMAGE_NAME }}:latest \
-            --amend ${{ env.DOCKER_IMAGE_NAME }}:ubuntu-24.04-arm \
-            --amend ${{ env.DOCKER_IMAGE_NAME }}:ubuntu-latest
+          docker manifest create ${{ needs.build.outputs.docker-image-name }}:latest \
+            --amend ${{ needs.build.outputs.docker-image-name }}:ubuntu-24.04-arm \
+            --amend ${{ needs.build.outputs.docker-image-name }}:ubuntu-latest
 
-          docker manifest push ${{ env.DOCKER_IMAGE_NAME }}:latest
+          docker manifest push ${{ needs.build.outputs.docker-image-name }}:latest
