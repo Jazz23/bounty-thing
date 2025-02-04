@@ -7,17 +7,27 @@ on:
   push:
     branches: [fix/multi-platform-build]
 
+env:
+  DOCKER_IMAGE_NAME:
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     strategy:
       matrix:
+        # Use a matrix strategy to run two jobs, one for amd64 and one for arm64.
         os: [ubuntu-latest, ubuntu-24.04-arm]
-    permissions:
-      contents: read
-      packages: write
     runs-on: ${{ matrix.os }}
 
     steps:
+      # Docker images require lowercase names, but GitHub repository may contain uppercase characters
+      - name: downcase REPO
+        run: |
+          echo "DOCKER_IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
       - uses: actions/checkout@v4
 
       - name: Login to GitHub Container Registry
@@ -27,26 +37,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Docker images require lowercase names, but GitHub repository may contain uppercase characters
-      - name: downcase REPO
-        run: |
-          echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-
-      # Docker image used for local development (Dev Container) and CI testing
+      # Build docker image used for local development (Dev Container) and CI testing
       - name: Pre-build dev container image
         uses: devcontainers/ci@v0.3
         with:
           subFolder: .github
-          imageName: ghcr.io/${{ env.REPO }}
+          imageName: ${{ env.DOCKER_IMAGE_NAME }}
           imageTag: ${{ matrix.os }}
           push: always
 
+  # Combine the two images into one manifest and push with the :latest tag.
   combine:
     needs: [build]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     
     steps:
       - name: Login to GitHub Container Registry
@@ -58,5 +61,8 @@ jobs:
 
       - name: Build and push manifest
         run: |
-          docker manifest create ghcr.io/jazz23/bounty-thing:latest --amend ghcr.io/jazz23/bounty-thing:ubuntu-24.04-arm --amend ghcr.io/jazz23/bounty-thing:ubuntu-latest
-          docker manifest push ghcr.io/jazz23/bounty-thing:latest
+          docker manifest create ${{ env.DOCKER_IMAGE_NAME }}:latest \
+            --amend ${{ env.DOCKER_IMAGE_NAME }}:ubuntu-24.04-arm \
+            --amend ${{ env.DOCKER_IMAGE_NAME }}:ubuntu-latest
+
+          docker manifest push ${{ env.DOCKER_IMAGE_NAME }}:latest
