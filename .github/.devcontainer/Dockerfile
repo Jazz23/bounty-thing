@@ -5,9 +5,9 @@ LABEL org.opencontainers.image.description "A prebuilt Dev Container image."
 USER node
 
 # Install playwright's dependencies and browsers
-RUN npm install -g playwright
-RUN npx playwright install-deps
-RUN npx playwright install
+# RUN npm install -g playwright
+# RUN npx playwright install-deps
+# RUN npx playwright install
 
 # Configure act to use their medium image
 RUN mkdir -p /home/node/.config/act

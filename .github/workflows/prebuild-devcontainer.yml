@@ -44,6 +44,9 @@ jobs:
   combine:
     needs: [build]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     
     steps:
       - name: Login to GitHub Container Registry
@@ -52,7 +55,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Build and push manifest
         run: |
           docker manifest create ghcr.io/jazz23/bounty-thing:latest --amend ghcr.io/jazz23/bounty-thing:ubuntu-24.04-arm --amend ghcr.io/jazz23/bounty-thing:ubuntu-latest
