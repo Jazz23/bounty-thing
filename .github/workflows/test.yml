@@ -1,3 +1,4 @@
+# Runs `npm test` inside the prebuilt Dev Container.
 name: Npm Tests
 
 on:

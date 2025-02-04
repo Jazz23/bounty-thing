@@ -1,6 +1,5 @@
-# This workflow pre-builds the dev container docker image used in Github Codespaces or if you run the devcontainer locally
-# This will pre-install all the container features.
-# The image is PRIVATE to the orginization; regardless, no sensitive data is exposed to the package stored in ghcr.io.
+# Builds a multi-arch docker image comptabile with amd64/x86 and
+# arm64 used for developers via the Dev Containers extension or for CI/CD actions.
 name: Prebuild Dev Container
 
 on:
