@@ -1,5 +1,7 @@
 # Bounty based open source development.
 
+Hosted on AWS Amplify.
+
 ## Testing
 
 ### GitHub Workflows

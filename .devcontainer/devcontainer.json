@@ -9,7 +9,8 @@
 			"extensions": [
 				"svelte.svelte-vscode",
 				"github.vscode-github-actions",
-				"SanjulaGanepola.github-local-actions"
+				"SanjulaGanepola.github-local-actions",
+				"ms-playwright.playwright"
 			]
 		}
 	},
