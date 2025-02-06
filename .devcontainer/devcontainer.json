@@ -10,7 +10,8 @@
 				"svelte.svelte-vscode",
 				"github.vscode-github-actions",
 				"SanjulaGanepola.github-local-actions",
-				"ms-playwright.playwright"
+				"ms-playwright.playwright",
+				"bradlc.vscode-tailwindcss"
 			]
 		}
 	},
