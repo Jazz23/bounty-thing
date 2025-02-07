@@ -1,8 +1,9 @@
 <script>
+	import ChatBubble from "$lib/components/chatBubble.svelte";
+    
     let { data } = $props();
-    console.log(data)
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-{data.hi}
+<div class="bg-gray-200 m-10 flex justify-center">
+    <ChatBubble />
+</div>
