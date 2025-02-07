@@ -1,13 +1,9 @@
 <script>
-    let visible = $state(false)
+	import Temp from "$lib/temp.svelte";
+    
     let { data } = $props();
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-<button onclick={() => visible = true}>Login</button>
-
-{#if visible}
-    <p>Logged in!</p>
-{/if}
-{data.response}
+<div class="bg-gray-200 m-10 flex justify-center">
+    <Temp />
+</div>
