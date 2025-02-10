@@ -8,15 +8,21 @@
     let messageBoard: HTMLElement | undefined = $state()
     let mostRecentMessage = $state()
     const mock = true
+    const mockActiveConvo = false
 
+    // Mocked message count
     function updateCount() {
         count = count + 1
     }
 
     onMount(() => {
-        // setInterval(updateCount, 500)
+        // Repeat fake messages over and over again
+        if (mock && mockActiveConvo) {
+            setInterval(updateCount, 500)
+        }
     });
 
+    // Auto scroll new messages to be at the bottom
     $effect(() => {
         mostRecentMessage;
         messageBoard!.scrollTop = messageBoard!.scrollHeight
