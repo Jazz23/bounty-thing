@@ -6,6 +6,7 @@
     let { data } = $props();
     let count = $state(0)
     let messageBoard: HTMLElement | undefined = $state()
+    let chatBoxMessage: string | undefined = $state()
     let mostRecentMessage = $state()
     const mock = true
     const mockActiveConvo = false
@@ -27,6 +28,18 @@
         mostRecentMessage;
         messageBoard!.scrollTop = messageBoard!.scrollHeight
     })
+
+    $effect(() => {
+        if (!chatBoxMessage) return;
+
+        const len = chatBoxMessage.length
+        if (chatBoxMessage.charAt(len-1) == '\n') {
+            const message = chatBoxMessage
+            chatBoxMessage = ""
+            
+
+        }
+    })
 </script>
 
 
@@ -47,7 +60,7 @@
         </div>
     
         <div class="row-span-1 shadow-lg rounded-xl p-5 bg-white">
-            <textarea class="w-full h-full border-none outline-none" placeholder="..."></textarea>
+            <textarea class="w-full h-full border-none outline-none" placeholder="..." bind:value={chatBoxMessage}></textarea>
         </div>
         
     </div>
