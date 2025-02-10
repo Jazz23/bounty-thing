@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ChatBubble from "$lib/components/chatBubble.svelte";
-	import Textbox from "$lib/components/textbox.svelte";
 	import { mockNarrator, mockUser } from "$lib/mockData";
 	import { onMount } from "svelte";
     
