@@ -3,13 +3,15 @@
 	import { mockNarrator, mockUser } from "$lib/mockData";
 	import { onMount } from "svelte";
     
-    let { data } = $props();
-    let count = $state(0)
-    let messageBoard: HTMLElement | undefined = $state()
-    let chatBoxMessage: string | undefined = $state()
-    let mostRecentMessage = $state()
     const mock = true
     const mockActiveConvo = false
+
+    let { data, form } = $props();
+    let count = $state(mock ? 3 : 0)
+    let messageBoard: HTMLElement | undefined = $state()
+    let chatBoxMessage: string | undefined = $state()
+    let chatBoxForm: HTMLFormElement | undefined = $state()
+    let mostRecentMessage = $state()
 
     // Mocked message count
     function updateCount() {
@@ -29,22 +31,21 @@
         messageBoard!.scrollTop = messageBoard!.scrollHeight
     })
 
-    $effect(() => {
-        if (!chatBoxMessage) return;
+    function onChatBoxKeyDown(e: KeyboardEvent) {
+        if (e.key !== "Enter") return;
 
-        const len = chatBoxMessage.length
-        if (chatBoxMessage.charAt(len-1) == '\n') {
-            const message = chatBoxMessage
-            chatBoxMessage = ""
-            
+        const chatBox = e.target as HTMLTextAreaElement
+        const message = chatBox.value // TODO: Preprocess message/perform checks
 
-        }
-    })
+        chatBoxForm!.submit()
+    }
 </script>
 
-
+<!-- Flexbox to center everything on the page -->
 <div class="flex justify-center">
-    <div class="h-screen w-3/4 align-middle grid grid-rows-4 gap-4 p-10">
+    <!-- 4 grid rows, 2 items in total. 3 rows are taken up by the first element... -->
+    <div class="grid grid-rows-4 gap-4 p-10 h-screen w-3/4 align-middle">
+        <!-- Overflow auto for the scrollbar -->
         <div class="row-span-3 overflow-auto" bind:this={messageBoard}>
             {#if mock}
                 {#each Array.from({ length: count }, (_, i) => i) as i}
@@ -59,9 +60,9 @@
             {/if}
         </div>
     
-        <div class="row-span-1 shadow-lg rounded-xl p-5 bg-white">
-            <textarea class="w-full h-full border-none outline-none" placeholder="..." bind:value={chatBoxMessage}></textarea>
-        </div>
-        
+        <!-- ...and 1 is taken up by the last, the chat box -->
+        <form method="POST" action="?/chatMessage" class="row-span-1 shadow-lg rounded-xl p-5 bg-white" bind:this={chatBoxForm}>
+                <textarea name="chatBoxMessage" class="w-full h-full border-none outline-none" placeholder="..." onkeydown={onChatBoxKeyDown}></textarea>
+        </form>
     </div>
 </div>

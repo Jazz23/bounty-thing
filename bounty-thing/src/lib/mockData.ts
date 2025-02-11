@@ -4,7 +4,7 @@ export const mockNarrator: ChatCompletion = {
     choices: [
         {
             message: {
-                content: "They walked to and from the door. I can't believe it, there's something spooky in the air.",
+                content: "They walked to and from the door. I can't believe it, there's something spooky in the air. I don't know what it is, but if someone else is reading this then Justin has onboarded them and he's a happy feller!",
                 role: "assistant",
                 refusal: null
             },
